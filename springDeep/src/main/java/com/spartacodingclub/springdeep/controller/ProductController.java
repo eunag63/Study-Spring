@@ -4,9 +4,11 @@ package com.spartacodingclub.springdeep.controller;
 import com.spartacodingclub.springdeep.dto.ProductMypriceRequestDto;
 import com.spartacodingclub.springdeep.dto.ProductRequestDto;
 import com.spartacodingclub.springdeep.model.Product;
+import com.spartacodingclub.springdeep.model.UserRole;
 import com.spartacodingclub.springdeep.security.UserDetailsImpl;
 import com.spartacodingclub.springdeep.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    
+
 
     // 신규 상품 등록
     @PostMapping("/api/products")
@@ -50,4 +52,14 @@ public class ProductController {
         Long userId = userDetails.getUser().getId();
         return productService.getProducts(userId);
     }
+
+    // 관리자용 전체 상품 조회
+    @Secured(UserRole.Authroity.ADMIN)
+    @GetMapping("/api/admin/products")
+    public List<Product> getAllProducts() {
+
+        return productService.getAllProducts();
+    }
+
+
 }

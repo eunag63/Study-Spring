@@ -52,4 +52,8 @@ public class ProductService {
         return productRepository.findAllByUserId(userId);
     }
 
+    // 관리자용 상품 전체 조회
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
 }
