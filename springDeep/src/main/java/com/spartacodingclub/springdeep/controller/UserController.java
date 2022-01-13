@@ -1,5 +1,6 @@
 package com.spartacodingclub.springdeep.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.spartacodingclub.springdeep.dto.SignupRequestDto;
 import com.spartacodingclub.springdeep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -42,4 +44,12 @@ public class UserController {
         userService.registerUser(requestDto);
         return "redirect:/";
     }
+
+    // 카카오
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+        userService.kakaoLogin(code);
+        return "redirect:/";
+    }
+
 }
