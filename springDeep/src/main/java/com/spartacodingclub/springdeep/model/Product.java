@@ -2,6 +2,7 @@ package com.spartacodingclub.springdeep.model;
 
 
 import com.spartacodingclub.springdeep.dto.ProductRequestDto;
+import com.spartacodingclub.springdeep.validator.ProductValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
-public class Product extends Timestamped {
+public class Product {
 
     // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,6 +41,9 @@ public class Product extends Timestamped {
 
     // 관심 상품 생성 시 이용합니다.
     public Product(ProductRequestDto requestDto, Long userId) {
+        // 입력값 Validation
+        ProductValidator.validateProductInput(requestDto, userId);
+
         // 관심상품을 등록한 회원 Id 저장
         this.userId = userId;
         this.title = requestDto.getTitle();
@@ -52,4 +56,5 @@ public class Product extends Timestamped {
     public void updateMyPrice(int myPrice) {
         this.myprice = myPrice;
     }
+
 }
